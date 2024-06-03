@@ -3,13 +3,13 @@
     /// Taking user input
     $num = (int) readline("Please enter a integer number: ");
 
-    /// initializing the answer
+    /// initializing the answer as 0
     (int) $ans = 0;
 
     /// loop until the number decreases to 0
     while($num) {
 
-        /// adding the last digit of the number
+        /// adding the last digit of the number to the ans
         $ans += $num % 10;
 
         /// dividing the number with 10 to remove the last digit

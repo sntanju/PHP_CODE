@@ -2,17 +2,17 @@
     /// Taking user input
     $n = (int) readline("Please enter a integer number n: ");
     
-    /// first loop which is used to print n line
+    /// first loop for print n line
     for($i = 0; $i < $n; $i++) {
 
-        /// first nested loop which is used to print the spaces before the *
+        /// first nested loop for print the spaces before the *
         for($j = 0; $j < $n - $i; $j++) {
 
             /// printing each space
             echo " ";
         }
 
-        /// second nested loop which is used to print the required *
+        /// second nested loop for print the  *
         for($x = 0; $x < ($i * 2) - 1; $x++){
 
             /// printing each *
