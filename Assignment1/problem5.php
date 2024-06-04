@@ -3,6 +3,9 @@
     /// Taking user input
     $num = (int) readline("Please enter a integer number: ");
 
+    /// handling negative number
+    if($num < 0) $num *= -1;
+
     /// initializing the answer as 0
     (int) $ans = 0;
 
