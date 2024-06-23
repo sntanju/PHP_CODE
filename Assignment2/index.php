@@ -13,7 +13,7 @@
         echo "4. View expenses" . PHP_EOL;
         echo "5. View savings" . PHP_EOL;
         echo "6. View categories" . PHP_EOL;
-        echo "7. Exit" . PHP_EOL;
+        echo "0. Exit" . PHP_EOL;
         echo "Enter your option: ";
     }
 
@@ -34,12 +34,10 @@
         $description = trim($description);
 
         $income = new Income($amount, $category, $description);
-        $dataHandler -> saveIncome($income -> makeArray());
+        $dataHandler -> saveIncome($income -> toArray());
 
         $dataHandler -> saveCategory($category);
         echo "Income added successfully!" . PHP_EOL;
-
-
     }
 
      /// Expense adding function
@@ -59,7 +57,7 @@
         $description = trim($description);
     
         $expense = new Expense($amount, $category, $description);
-        $dataHandler -> saveExpense($expense -> makeArray());
+        $dataHandler -> saveExpense($expense -> toArray());
 
         $dataHandler -> saveCategory($category);
         echo "Expense added successfully!" . PHP_EOL;
@@ -111,7 +109,7 @@
         else echo "Categories: " . implode(', ', $categories) . PHP_EOL;
     }
 
-    /// Handling user input options
+    /// Handling user options
 
     $dataHandler = new HandleData();
 
@@ -130,8 +128,9 @@
         else if($option == 5) viewSavings($dataHandler);
         else if($option == 6) viewCategories($dataHandler);
 
-        else if($option == 7) exit("The program is exiting.") . PHP_EOL;
+        else if($option == 0) exit("This program is exiting.") . PHP_EOL;
         else echo "Invalid option. Please try again with a valid option." . PHP_EOL;
     }
+
 
 ?>

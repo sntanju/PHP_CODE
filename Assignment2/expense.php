@@ -13,7 +13,7 @@
             $this -> description = $description;
         }
 
-        public function makeArray() {
+        public function toArray() {
             return [
                 'amount' => $this -> amount,
                 'category' => $this -> category,

@@ -38,6 +38,8 @@ class HandleData
     public function saveCategory($category) {
 
         $categories = json_decode(file_get_contents($this -> categoryFile), true);
+        if (!is_array($categories)) $categories = []; 
+
         if (!in_array($category, $categories)) {
 
             $categories[] = $category;
@@ -64,6 +66,7 @@ class HandleData
 
         $totalIncome = array_sum(array_column($incomes, 'amount'));
         $totalExpense = array_sum(array_column($expenses, 'amount'));
+        
         $totalSavings = $totalIncome - $totalExpense;
 
         return [
