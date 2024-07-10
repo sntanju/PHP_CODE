@@ -30,7 +30,7 @@
         $_SESSION['uid'] = $uid;
         $_SESSION['shareable_link'] = "http://localhost:8000/feedback.php?uid=" . $uid;
         
-        header('Location: dashboard.php');
+        header('Location: login.html');
         exit();
     }
 ?>
