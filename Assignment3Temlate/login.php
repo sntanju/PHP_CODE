@@ -1,18 +1,21 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $usersFile = 'allData/allUsers.json';
-    $users = json_decode(file_get_contents($usersFile), true);
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    foreach ($users as $user) {
-        if ($user['email'] === $email && password_verify($password, $user['password'])) {
-            header('Location: dashboard.php');
-            exit();
+        $usersFile = 'allData/allUsers.json';
+        $users = json_decode(file_get_contents($usersFile), true);
+
+        foreach ($users as $user) {
+
+            if ($user['email'] === $email && password_verify($password, $user['password'])) {
+                
+                header('Location: dashboard.php');
+                exit();
+            }
         }
-    }
 
-    echo 'Invalid credentials';
-}
+        echo 'Invalid credentials';
+    }
 ?>

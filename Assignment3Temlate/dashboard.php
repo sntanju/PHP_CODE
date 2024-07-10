@@ -1,35 +1,38 @@
 <?php
-session_start();
 
-if (!isset($_SESSION['uid'])) {
-    header('Location: login.php');
-    exit();
-}
+    session_start();
+    if (!isset($_SESSION['uid'])) {
 
-$usersFile = 'allData/allUsers.json';
-$users = json_decode(file_get_contents($usersFile), true) ?? [];
-$currentUser = null;
-
-foreach ($users as $user) {
-    if ($user['uid'] === $_SESSION['uid']) {
-        $currentUser = $user;
-        break;
+        header('Location: login.php');
+        exit();
     }
-}
 
-if ($currentUser === null) {
-    echo "User not found.";
-    exit();
-}
+    $usersFile = 'allData/allUsers.json';
+    $users = json_decode(file_get_contents($usersFile), true) ?? [];
 
-$username = $currentUser['name'];
-$shareableLink = $_SESSION['shareable_link'];
+    $currentUser = null;
+    foreach ($users as $user) {
 
-$feedbackFile = 'allData/allFeedbacks.json';
-$feedbacks = json_decode(file_get_contents($feedbackFile), true) ?? [];
-$userFeedbacks = array_filter($feedbacks, function($feedback) use ($currentUser) {
-    return $feedback['uid'] === $currentUser['uid'];
-});
+        if ($user['uid'] === $_SESSION['uid']) {
+            $currentUser = $user;
+            break;
+        }
+    }
+
+    if ($currentUser === null) {
+        echo "User not found.";
+        exit();
+    }
+
+    $username = $currentUser['name'];
+    $shareableLink = $_SESSION['shareable_link'];
+
+    $feedbackFile = 'allData/allFeedbacks.json';
+    $feedbacks = json_decode(file_get_contents($feedbackFile), true) ?? [];
+
+    $userFeedbacks = array_filter($feedbacks, function($feedback) use ($currentUser) {
+        return $feedback['uid'] === $currentUser['uid'];
+    });
 ?>
 
 <!DOCTYPE html>
@@ -96,29 +99,38 @@ $userFeedbacks = array_filter($feedbacks, function($feedback) use ($currentUser)
             <div class="flex justify-end">
                 <span class="block text-gray-600 font-mono border border-gray-400 rounded-xl px-2 py-1">Your feedback form link: 
                     <a href="<?php echo htmlspecialchars($shareableLink); ?>" class="text-blue-500 underline">
-                    <strong>Make your Feedback</strong>
+                    <strong>Collect your Feedback</strong>
     </a></span>
             </div>
             <h1 class="text-xl text-indigo-800 text-bold my-10">Received feedback</h1>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 
                 <?php
-                if (!empty($userFeedbacks)) {
-                    foreach ($userFeedbacks as $feedback) {
+
+                    if (!empty($userFeedbacks)) {
+
+                        foreach ($userFeedbacks as $feedback) {
+
+                            echo '<div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">';
+                            echo '<div class="focus:outline-none">';
+
+                            echo '<p>' . htmlspecialchars($feedback['message']) . '</p>';
+                            echo '<p class="text-gray-500 text-xs">' . htmlspecialchars($feedback['timestamp']) . '</p>';
+
+                            echo '</div>';
+                            echo '</div>';
+                        }
+
+                    } 
+                    else {
                         echo '<div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">';
                         echo '<div class="focus:outline-none">';
-                        echo '<p>' . htmlspecialchars($feedback['message']) . '</p>';
-                        echo '<p class="text-gray-500 text-xs">' . htmlspecialchars($feedback['timestamp']) . '</p>';
+
+                        echo '<p>No feedback available.</p>';
                         echo '</div>';
+                        
                         echo '</div>';
                     }
-                } else {
-                    echo '<div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:border-gray-400">';
-                    echo '<div class="focus:outline-none">';
-                    echo '<p>No feedback available.</p>';
-                    echo '</div>';
-                    echo '</div>';
-                }
                 ?>
 
             </div>

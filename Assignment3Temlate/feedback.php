@@ -1,50 +1,53 @@
 <?php
 
-session_start();
+    session_start();
+    if (!isset($_GET['uid'])) {
 
-if (!isset($_GET['uid'])) {
-    echo "Invalid link.";
-    exit();
-}
-
-$uid = $_GET['uid'];
-
-$usersFile = 'allData/allUsers.json';
-$users = json_decode(file_get_contents($usersFile), true) ?? [];
-$currentUser = null;
-
-foreach ($users as $user) {
-    if ($user['uid'] === $uid) {  // Changed from $_SESSION['uid'] to $uid
-        $currentUser = $user;
-        break;
+        echo "Invalid link.";
+        exit();
     }
-}
 
-if ($currentUser === null) {
-    echo "User not found.";
-    exit();
-}
+    $uid = $_GET['uid'];
+    $usersFile = 'allData/allUsers.json';
 
-$username = $currentUser['name'];
+    $users = json_decode(file_get_contents($usersFile), true) ?? [];
+    $currentUser = null;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $message = $_POST['message'];
-    $timestamp = date('Y-m-d H:i:s');
+    foreach ($users as $user) {
+        if ($user['uid'] === $uid) { 
 
-    $feedbackFile = 'allData/allFeedbacks.json';
-    $feedbacks = json_decode(file_get_contents($feedbackFile), true) ?? [];
+            $currentUser = $user;
+            break;
+        }
+    }
 
-    $feedbacks[] = [
-        'uid' => $uid,
-        'message' => $message,
-        'timestamp' => $timestamp
-    ];
+    if ($currentUser === null) {
 
-    file_put_contents($feedbackFile, json_encode($feedbacks));
+        echo "User not found.";
+        exit();
+    }
 
-    echo "Thank you for your feedback!";
-    exit();
-}
+    $username = $currentUser['name'];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        $message = $_POST['message'];
+        $timestamp = date('Y-m-d H:i:s');
+
+        $feedbackFile = 'allData/allFeedbacks.json';
+        $feedbacks = json_decode(file_get_contents($feedbackFile), true) ?? [];
+
+        $feedbacks[] = [
+
+            'uid' => $uid,
+            'message' => $message,
+            'timestamp' => $timestamp
+        ];
+
+        file_put_contents($feedbackFile, json_encode($feedbacks));
+        header('Location: feedback-success.html');
+
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
